@@ -6,7 +6,7 @@
     <title>Silverlight.Controls.ToolTips for OpenSilver</title>
     <authors>Userware</authors>
     <description>Silverlight.Controls.ToolTips for Silverlight compiled with OpenSilver</description>
-    <projectUrl>https://www.opensilver.net</projectUrl>
+    <projectUrl>https://github.com/OpenSilver/OpenSilver.Controls.Tooltip</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright (c) 2022, Userware. All rights reserved.</copyright>
     <dependencies>
