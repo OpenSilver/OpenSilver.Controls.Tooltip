@@ -20,7 +20,9 @@ namespace Silverlight.Controls.ToolTips
 
         private static UIElement currentElement;
         private static FrameworkElement rootVisual;
+#if !OPENSILVER
         private static Size lastSize;
+#endif
         private static readonly object locker = new object();
         private static bool isCloseAnimationInProgress;
         private static bool isOpenAnimationInProgress;
@@ -128,6 +130,7 @@ namespace Silverlight.Controls.ToolTips
 
         #endregion Attached Dependency Properties
 
+#if !OPENSILVER
         internal static Point MousePosition { get; set; }
 
         internal static FrameworkElement RootVisual
@@ -138,6 +141,7 @@ namespace Silverlight.Controls.ToolTips
                 return rootVisual;
             }
         }
+#endif
 
         internal static ToolTip CurrentToolTip { get; private set; }
 
@@ -180,7 +184,9 @@ namespace Silverlight.Controls.ToolTips
 
         private static void OnElementMouseEnter(object sender, MouseEventArgs e)
         {
+#if !OPENSILVER
             MousePosition = e.GetPosition(null);
+#endif
             lock (locker)
             {
                 currentElement = (UIElement)sender;
@@ -269,6 +275,7 @@ namespace Silverlight.Controls.ToolTips
             }
         }
 
+#if !OPENSILVER
         private static void OnRootVisualMouseMove(object sender, MouseEventArgs e)
         {
             // store the current mouse coordinates
@@ -288,6 +295,7 @@ namespace Silverlight.Controls.ToolTips
 
             PerformPlacement(CurrentToolTip.HorizontalOffset, CurrentToolTip.VerticalOffset);
         }
+#endif
 
         private static void OnRootVisualMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -322,6 +330,7 @@ namespace Silverlight.Controls.ToolTips
             }
         }
 
+#if !OPENSILVER
         private static void OnToolTipSizeChanged(object sender, SizeChangedEventArgs e)
         {
             lastSize = e.NewSize;
@@ -330,6 +339,7 @@ namespace Silverlight.Controls.ToolTips
                 PerformPlacement(CurrentToolTip.HorizontalOffset, CurrentToolTip.VerticalOffset);
             }
         }
+#endif
 
         private static ToolTip ConvertToToolTip(object obj)
         {
@@ -346,6 +356,7 @@ namespace Silverlight.Controls.ToolTips
             return toolTip;
         }
 
+#if !OPENSILVER
         private static void PerformPlacement(double horizontalOffset, double verticalOffset)
         {
             PlacementMode placementMode = CurrentToolTip.Placement;
@@ -356,9 +367,6 @@ namespace Silverlight.Controls.ToolTips
             switch (placementMode)
             {
                 case PlacementMode.Mouse:
-                    // current ToolTip is placed in a correct position by System.Windows.Controls.ToolTip class,
-                    // but then this code causes popup jumping to another position, so skip it
-                    return;
                     double offsetX = MousePosition.X + horizontalOffset;
                     double offsetY = MousePosition.Y + new TextBlock().FontSize + verticalOffset;
 
@@ -424,8 +432,6 @@ namespace Silverlight.Controls.ToolTips
                     parentPopup.HorizontalOffset = popupLocation.X + horizontalOffset;
                     break;
             }
-
-
         }
 
         private static Point[] GetTranslatedPoints(FrameworkElement frameworkElement)
@@ -631,21 +637,22 @@ namespace Silverlight.Controls.ToolTips
 
         private static void PerformClipping(Size size)
         {
-            //var child = VisualTreeHelper.GetChild(CurrentToolTip, 0) as Border;
-            //if (child == null)
-            //{
-            //    return;
-            //}
+            var child = VisualTreeHelper.GetChild(CurrentToolTip, 0) as Border;
+            if (child == null)
+            {
+                return;
+            }
 
-            //if (size.Width < child.ActualWidth)
-            //{
-            //    child.Width = size.Width;
-            //}
-            //if (size.Height < child.ActualHeight)
-            //{
-            //    child.Height = size.Height;
-            //}
+            if (size.Width < child.ActualWidth)
+            {
+                child.Width = size.Width;
+            }
+            if (size.Height < child.ActualHeight)
+            {
+                child.Height = size.Height;
+            }
         }
+#endif
 
         private static void UnregisterToolTip(UIElement owner)
         {
@@ -724,8 +731,10 @@ namespace Silverlight.Controls.ToolTips
                 return;
             }
 
+#if !OPENSILVER
             rootVisual.MouseMove += OnRootVisualMouseMove;
             rootVisual.SizeChanged += OnRootVisualSizeChanged;
+#endif
             rootVisual.AddHandler(UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(OnRootVisualMouseLeftButtonDown), true);
         }
 
@@ -740,7 +749,9 @@ namespace Silverlight.Controls.ToolTips
                 return;
             }
 
+#if !OPENSILVER
             toolTip.SizeChanged += OnToolTipSizeChanged;
+#endif
 
             var control = element as Control;
             if (control != null)
