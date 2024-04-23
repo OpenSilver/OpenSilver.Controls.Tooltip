@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>$PackageId$</id>
+    <id>OpenSilver.Controls.ToolTips</id>
     <version>$PackageVersion$</version>
     <title>Silverlight.Controls.ToolTips for OpenSilver</title>
     <authors>Userware</authors>
     <description>Silverlight.Controls.ToolTips for Silverlight compiled with OpenSilver</description>
     <projectUrl>https://github.com/OpenSilver/OpenSilver.Controls.Tooltip</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Copyright (c) 2022, Userware. All rights reserved.</copyright>
+    <copyright>Copyright (c) 2024, Userware. All rights reserved.</copyright>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="OpenSilver" version="1.2.0-preview-2022-11-01-162816-e49e3529" />
+        <dependency id="OpenSilver" version="$OpenSilverDependencyVersion$" />
       </group>
     </dependencies>
   </metadata>
